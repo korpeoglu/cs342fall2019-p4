@@ -1,5 +1,3 @@
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -9,9 +7,10 @@
 #include <fcntl.h>
 #include "simplefs.h"
 
+int vdisk_fd; // global virtual disk file descriptor
+              // will be assigned with the sfs_mount call
+              // any function in this file can use this.
 
-
-int vdisk_fd; 
 
 // This function is simply used to a create a virtual disk
 // (a simple Linux file including all zeros) of the specified size.
@@ -35,6 +34,41 @@ int create_vdisk (char *vdiskfilename, int m)
     return (0); 
 }
 
+
+
+// read block k from disk (virtual disk) into buffer block.
+// size of the block is BLOCKSIZE.
+// space for block must be allocated outside of this function.
+// block numbers start from 0 in the virtual disk. 
+int read_block (void *block, int k)
+{
+    int n;
+
+    n = read (vdisk_fd, block, BLOCKSIZE);
+    if (n != BLOCKSIZE) {
+	printf ("read error\n");
+	return -1;
+    }
+    return (0); 
+}
+
+// write block k into the virtual disk. 
+int write_block (void *block, int k)
+{
+    int n;
+    n = write (vdisk_fd, block, BLOCKSIZE);
+    if (n != BLOCKSIZE) {
+	printf ("write error\n");
+	return (-1);
+    }
+    return 0; 
+}
+
+
+/**********************************************************************
+   The following functions are to be called by applications directly. 
+***********************************************************************/
+
 int sfs_format (char *vdiskname)
 {
     return (0); 
@@ -57,10 +91,15 @@ int sfs_umount ()
 }
 
 
+
+
+
 int sfs_create(char *filename)
 {
     return (0);
 }
+
+
 
 int sfs_open(char *file, int mode)
 {
