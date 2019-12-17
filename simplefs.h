@@ -74,6 +74,13 @@ int sfs_close(int fd);
    The related open file table entry should be marked as free. 
 */
 
+int sfs_getsize (int fd);
+/* 
+   With the an application learns the size of the file in bytes. 
+   A file witn no content has size 0. 
+   Returns the number of data bytes in the file. If error, returns -1. 
+*/
+
 int sfs_read(int fd, void *buf, int n);
 /* 
    With this, an application can read data from a file. fd is the

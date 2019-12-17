@@ -8,13 +8,15 @@
 int main()
 {
     int ret;
-    int fd1, fd2;
+    int fd1, fd2, fd; 
     int i; 
     char buffer[1024];
-    
+    char buffer2[8] = {50, 50, 50, 50, 50, 50, 50, 50};
+    int size;
+    char c; 
+
     printf ("started\n"); 
     
-
     // ****************************************************
     // if this is the first running of app, we can
     // create a virtual disk and format it as below
@@ -36,6 +38,7 @@ int main()
 	exit (1); 
     }
 
+    printf ("creating files\n"); 
     sfs_create ("file1.bin");
     sfs_create ("file2.bin");
     sfs_create ("file3.bin");
@@ -57,6 +60,22 @@ int main()
     
     sfs_close(fd1); 
     sfs_close(fd2); 
+
+    fd = sfs_open("file3.bin", MODE_APPEND);
+    for (i = 0; i < 10000; ++i) {
+	memcpy (buffer, buffer2, 8); // just to show memcpy
+	sfs_append(fd, (void *) buffer, 8); 
+
+    }
+    sfs_close (fd); 
+
+    fd = sfs_open("file3.bin", MODE_READ);
+    size = sfs_getsize (fd);
+    for (i = 0; i < size; ++i) {
+	sfs_read (fd, (void *) buffer, 1);
+	c = (char) buffer[0];
+    }
+    sfs_close (fd); 
     
     ret = sfs_umount(); 
 }

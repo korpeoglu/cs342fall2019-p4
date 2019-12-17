@@ -91,14 +91,10 @@ int sfs_umount ()
 }
 
 
-
-
-
 int sfs_create(char *filename)
 {
     return (0);
 }
-
 
 
 int sfs_open(char *file, int mode)
@@ -109,9 +105,17 @@ int sfs_open(char *file, int mode)
 int sfs_close(int fd){
     return (0); 
 }
+
+int sfs_getsize (int  fd)
+{
+    return (0); 
+}
+
 int sfs_read(int fd, void *buf, int n){
     return (0); 
 }
+
+
 int sfs_append(int fd, void *buf, int n)
 {
     return (0); 
