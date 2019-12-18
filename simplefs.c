@@ -18,7 +18,7 @@ int vdisk_fd; // global virtual disk file descriptor
 // There are other ways of creating a virtual disk (a Linux file)
 // of certain size. 
 // size = 2^m Bytes
-int create_vdisk (char *vdiskfilename, int m)
+int create_vdisk (char *vdiskname, int m)
 {
     char command[BLOCKSIZE]; 
     int size;

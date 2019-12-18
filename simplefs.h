@@ -4,7 +4,7 @@
 
 #define BLOCKSIZE 1024 // bytes
 
-int create_vdisk (char *vdiskfilename, int m);
+int create_vdisk (char *vdiskname, int m);
 /* 
    This function will be used to create a virtual disk (as simple Linux file)
    of certain size. The name of the Linux file is vdiskfilename. 
