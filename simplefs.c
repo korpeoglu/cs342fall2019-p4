@@ -43,7 +43,9 @@ int create_vdisk (char *vdiskfilename, int m)
 int read_block (void *block, int k)
 {
     int n;
+    int offset;
 
+    offset = k * BLOCKSIZE; 
     n = read (vdisk_fd, block, BLOCKSIZE);
     if (n != BLOCKSIZE) {
 	printf ("read error\n");
@@ -56,6 +58,9 @@ int read_block (void *block, int k)
 int write_block (void *block, int k)
 {
     int n;
+    int offset;
+
+    offset = k * BLOCKSIZE; 
     n = write (vdisk_fd, block, BLOCKSIZE);
     if (n != BLOCKSIZE) {
 	printf ("write error\n");
