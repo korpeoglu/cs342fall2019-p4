@@ -28,7 +28,7 @@ int create_vdisk (char *vdiskname, int m)
     count = size / BLOCKSIZE;
     printf ("%d %d", m, size);
     sprintf (command, "dd if=/dev/zero of=%s bs=%d count=%d",
-	     vdiskfilename, BLOCKSIZE, count); 
+	     vdiskname, BLOCKSIZE, count);
     printf ("executing command = %s\n", command); 
     system (command); 
     return (0); 
@@ -45,7 +45,8 @@ int read_block (void *block, int k)
     int n;
     int offset;
 
-    offset = k * BLOCKSIZE; 
+    offset = k * BLOCKSIZE;
+    lseek(vdisk_fd, (off_t) offset, SEEK_SET);
     n = read (vdisk_fd, block, BLOCKSIZE);
     if (n != BLOCKSIZE) {
 	printf ("read error\n");
@@ -60,7 +61,8 @@ int write_block (void *block, int k)
     int n;
     int offset;
 
-    offset = k * BLOCKSIZE; 
+    offset = k * BLOCKSIZE;
+    lseek(vdisk_fd, (off_t) offset, SEEK_SET);
     n = write (vdisk_fd, block, BLOCKSIZE);
     if (n != BLOCKSIZE) {
 	printf ("write error\n");
